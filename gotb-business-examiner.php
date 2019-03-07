@@ -39,7 +39,6 @@ function gotb_extend_post_types() {
 	$cpts->extend_post_types();
 
 }
-add_action('init', 'gotb_add_admin_fields' );
 
 function gotb_custom_admin_fields() {
 	$cpts = new Gotb_Business_Examiner_CPTs;
