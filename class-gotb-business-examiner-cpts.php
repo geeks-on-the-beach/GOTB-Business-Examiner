@@ -21,8 +21,7 @@
 class Gotb_Business_Examiner_CPTs {
 
 	public function init() {
-		$issuus = new Gotb_Issuu();
-		$issuus->init();
+
 	}
 
 	/**

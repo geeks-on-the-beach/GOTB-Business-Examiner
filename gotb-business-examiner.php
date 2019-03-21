@@ -52,3 +52,4 @@ function gotb_save_custom_fields( $post_id ) {
 	$cpts->save_custom_fields( $post_id );
 }
 add_action( 'save_post', 'gotb_save_custom_fields' );
+

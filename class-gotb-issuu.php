@@ -24,11 +24,6 @@
 		public $display_name = 'Issuu';
 		public $plural = 'Issuus';
 
-		public function init() {
-			add_action( 'do_meta_boxes', array( $this, 'move_featured_image' ) );
-		}
-
-
 		/**
 		 *
 		 *
@@ -131,42 +126,42 @@
 			}
 
 			?>
-			<input type="hidden" name="<?php echo $this->post_type . "__nonce"; ?>"
-			       value="<?php echo wp_create_nonce( basename( __FILE__ ) ); ?>">
-			<p>
-				<label for="<?php echo $this->post_type; ?>[issuu_link]">Issuu Link</label>
-				<br>
-				<input type="text" name="<?php echo $this->post_type; ?>[issuu_link]"
-				       id="<?php echo $this->post_type; ?>[issuu_link]" class="regular-text"
-				       value="<?php echo esc_url( $meta['issuu_link'] ); ?>">
-			</p>
-			<p>
-				<label for="<?php echo $this->post_type; ?>[frontpage]">Front Page</label>
-				<br>
-				<input type="checkbox" name="<?php echo $this->post_type; ?>[frontpage]"
-				       id="<?php echo $this->post_type; ?>[frontpage]" class="regular-text"
-				       value="1" <?php checked( esc_html( $meta['frontpage'] ) ); ?>>
-			</p>
-			<p>
-				<label for="<?php echo $this->post_type; ?>[social_media]">Show Social Media</label>
-				<br>
-				<input type="checkbox" name="<?php echo $this->post_type; ?>[social_media]"
-				       id="<?php echo $this->post_type; ?>[social_media]" class="regular-text"
-				       value="1" <?php checked( esc_html( $meta['social_media'] ) ); ?>>
-			</p>
+            <input type="hidden" name="<?php echo $this->post_type . "__nonce"; ?>"
+                   value="<?php echo wp_create_nonce( basename( __FILE__ ) ); ?>">
+            <p>
+                <label for="<?php echo $this->post_type; ?>[issuu_link]">Issuu Link</label>
+                <br>
+                <input type="text" name="<?php echo $this->post_type; ?>[issuu_link]"
+                       id="<?php echo $this->post_type; ?>[issuu_link]" class="regular-text"
+                       value="<?php echo esc_url( $meta['issuu_link'] ); ?>">
+            </p>
+            <p>
+                <label for="<?php echo $this->post_type; ?>[frontpage]">Front Page</label>
+                <br>
+                <input type="checkbox" name="<?php echo $this->post_type; ?>[frontpage]"
+                       id="<?php echo $this->post_type; ?>[frontpage]" class="regular-text"
+                       value="1" <?php checked( esc_html( $meta['frontpage'] ) ); ?>>
+            </p>
+            <p>
+                <label for="<?php echo $this->post_type; ?>[social_media]">Show Social Media</label>
+                <br>
+                <input type="checkbox" name="<?php echo $this->post_type; ?>[social_media]"
+                       id="<?php echo $this->post_type; ?>[social_media]" class="regular-text"
+                       value="1" <?php checked( esc_html( $meta['social_media'] ) ); ?>>
+            </p>
 
-			<p>
-				<label>Table Of Contents</label>
-				<br>
+            <p>
+                <label>Table Of Contents</label>
+                <br>
 				<?php for ( $n = 1; $n < 6; $n ++ ) { ?>
-					<label for="<?php echo $this->post_type; ?>[toc][<?php echo $n; ?>]"><?php echo $n; ?></label>
-					<input type="text" name="<?php echo $this->post_type; ?>[toc][<?php echo $n; ?>]"
-					       id="<?php echo $this->post_type; ?>[toc][<?php echo $n; ?>]"
-					       class="regular-text"
-					       value="<?php echo $meta['toc'][ $n ] ?>"/>
-					<br>
+                    <label for="<?php echo $this->post_type; ?>[toc][<?php echo $n; ?>]"><?php echo $n; ?></label>
+                    <input type="text" name="<?php echo $this->post_type; ?>[toc][<?php echo $n; ?>]"
+                           id="<?php echo $this->post_type; ?>[toc][<?php echo $n; ?>]"
+                           class="regular-text"
+                           value="<?php echo $meta['toc'][ $n ] ?>"/>
+                    <br>
 				<?php } ?>
-			</p>
+            </p>
 
 			<?php
 
@@ -180,15 +175,15 @@
 			$meta = get_post_meta( $post->ID, $this->post_type . '__hits', true );
 
 			?>
-			<p>
-				<label for="<?php echo $this->post_type; ?>[hits]">Hits</label>
-				<br>
-				<input type="text" name="<?php echo $this->post_type; ?>[hits]"
-				       id="<?php echo $this->post_type; ?>[hits]" class="regular-text"
-				       value="<?php echo esc_html( $meta ); ?>"
-				       disabled="true"
-				       size="10">
-			</p>
+            <p>
+                <label for="<?php echo $this->post_type; ?>[hits]">Hits</label>
+                <br>
+                <input type="text" name="<?php echo $this->post_type; ?>[hits]"
+                       id="<?php echo $this->post_type; ?>[hits]" class="regular-text"
+                       value="<?php echo esc_html( $meta ); ?>"
+                       disabled="true"
+                       size="10">
+            </p>
 
 			<?php
 		}
@@ -227,7 +222,7 @@
 
 
 		public function nonce_checks( $post_id ) {
-			if ( ! wp_verify_nonce( $_POST[ $this->post_type . "__nonce" ], basename( __FILE__ ) ) ) {
+			if ( empty( $_POST[ $this->post_type . "__nonce" ] ) || ! wp_verify_nonce( $_POST[ $this->post_type . "__nonce" ], basename( __FILE__ ) ) ) {
 				return false;
 			}
 
@@ -239,8 +234,4 @@
 
 		}
 
-		public function move_featured_image() {
-			remove_meta_box( 'postimagediv', $this->post_type, 'side' );
-			add_meta_box( 'postimagediv', __( 'Featured Image' ), 'post_thumbnail_meta_box', $this->post_type, 'normal', 'high' );
-		}
 	}
