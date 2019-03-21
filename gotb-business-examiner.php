@@ -53,3 +53,17 @@ function gotb_save_custom_fields( $post_id ) {
 }
 add_action( 'save_post', 'gotb_save_custom_fields' );
 
+function gotb_custom_user_fields( $user ) {
+	$users = new Gotb_Users();
+	$users->add_fields( $user );
+}
+add_action( 'show_user_profile', 'gotb_custom_user_fields' );
+add_action( 'edit_user_profile', 'gotb_custom_user_fields' );
+
+function gotb_save_custom_user_fields( $user ) {
+	$users = new Gotb_Users();
+	$users->save_fields( $user );
+}
+
+add_action( 'personal_options_update', 'gotb_save_custom_user_fields' );
+add_action( 'edit_user_profile_update', 'gotb_save_custom_user_fields' );
